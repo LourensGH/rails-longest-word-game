@@ -1,3 +1,5 @@
+require 'httparty'
+
 class GamesController < ApplicationController
   def new
     @letters = []
@@ -23,7 +25,13 @@ class GamesController < ApplicationController
       end
     end
     if @reply == 'word is valid'
-      @score += @word.length
+      response = HTTParty.get("https://wagon-dictionary.herokuapp.com/#{@word}")
+      word_data = JSON.parse(response.body)
+      if word_data['found']
+        @score += @word.length
+      else
+        @reply = 'word is not valid'
+      end
     end
     session[:score] = @score
   end
