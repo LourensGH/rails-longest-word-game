@@ -1,0 +1,11 @@
+<h1>New Game</h1>
+<div class="flex">
+  <% @letters.each do |letter| %>
+    <div class="box"><p><%= letter %></p></div>
+  <% end %>
+</div>
+<form action="score" method="get" data-turbo="false">
+  <input type="text" name="word" placeholder="arange the letters">
+  <input type="submit" value="Ask!">
+</form>
+<%= hidden_field_tag :letters, @letters.join(',') %>
